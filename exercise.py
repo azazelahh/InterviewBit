@@ -78,15 +78,92 @@ def longestConsecutive(A):
                 max_len = cur_len
     return max_len
 
+
+def reverseWords(A):
+    if len(A) <= 1:
+        return A
+
+    result = ''
+    i = -1
+    start = -1
+    end = -1
+    whitesp = False
+
+    while i >= -len(A):
+        if i == -len(A):
+            if result == '':
+                result += A
+            else:
+                result += A[0: end].strip()
+            break
+        if A[i] == ' ':
+            if whitesp == False:
+                whitesp = True
+                if result == '':
+                    start = i + 1
+                    result += A[start:] + ' '
+                else:
+                    start = i + 1
+                    result += A[start: end] + ' '
+            end = i
+        else:
+            whitesp = False
+        i -= 1
+
+    return result
+
+
+def atoi(A):
+    integer = 0
+    int_began = False
+    negative = False
+    for i in A:
+        if i.isdigit():
+            if int_began == False:
+                int_began = True
+            integer *= 10
+            integer += int(i)
+        else:
+            if int_began:
+                break
+            else:
+                if i == '-':
+                    negative = True
+    if negative:
+        return 0 - integer
+    return integer
+
+
+def maxLength(a, k):
+    mlen = 0
+    clen = 0
+    sum = 0
+
+    for i in range(0, len(a)):
+        for j in range(i, len(a)):
+            tmp_sum = sum + a[j]
+            if tmp_sum <= k:
+                clen += 1
+                sum += a[j]
+        if clen > mlen:
+            mlen = clen
+        clen = 0
+        sum = 0
+        tmp_sum = 0
+    return mlen
+
 # Main function
 def main():
-    A = [-3, -1, 0, 1, 2, 3, 4, 5, 6, 7, 9]
-    k = 2
+    A = [1,2,1,1,1]
+    k = 3
 
     #prettyPrint(A)
     #ksmallest(A, k)
     #nextGreater(A)
     #longestConsecutive(A)
+    #reverseWords(A)
+    #atoi(A)
+    maxLength(A, k)
 
 if __name__ == '__main__':
     main()
