@@ -152,10 +152,83 @@ def maxLength(a, k):
         tmp_sum = 0
     return mlen
 
+
+# @param B : integer
+# @return a list of integers
+def twoSum(A, B):
+    d = dict()
+    n = len(A)
+    for i in range(n):
+        if A[i] in d:
+            return [d[A[i]]+1,i+1]
+        elif B-A[i] not in d:
+            d[B-A[i]]=i
+    return []
+
+
+def minWindow(S, T):
+    ts = dict.fromkeys(T, -1)
+    count = 0
+    windows = {}
+
+    for i in range(0, len(S)):
+        if S[i] in ts:
+            if ts[S[i]] == -1:
+                count += 1
+                ts[S[i]] = []
+            ts[S[i]] += [i]
+        if (len(ts) > 1 and count == len(ts)) or (len(ts) == 1 and count == len(T)) or (len(ts) == 1 and len(T) > 0 and ts[T[0]] != -1 and len(ts[T[0]]) == len(T)):
+            min_val = len(S) + 1
+            min_list = []
+            max_val = -1
+            max_list = []
+            for k, v in ts.items():
+                for val in v:
+                    if val <= min_val:
+                        min_val = val
+                        min_list = v
+                    if val >= max_val:
+                        max_val = val
+                        max_list = v
+                ts[k] = -1
+            if min_list == max_list:
+                indxs = min_list[0: len(T)]
+                if len(indxs) == 1:
+                    return S[indxs[0]]
+                return S[indxs[0]: indxs[-1] + 1]
+            if len(windows) == 0:
+                windows[max_val - min_val] = [min_val, max_val]
+            elif max_val - min_val < windows.items()[0][0]:
+                windows = {}
+                windows[max_val - min_val] = [min_val, max_val]
+            count = 0
+
+    if len(windows) == 0:
+        return ''
+
+    inds = windows.items()[0][1]
+
+    return S[inds[0]: inds[1] + 1]
+
+
+def anagrams(A):
+    d = {}
+    n = len(A)
+    solutions = []
+
+    for i in range(n):
+        seti = set(A[i])
+        for j in range(i + 1, n):
+            setj = set(A[j])
+            if seti == setj:
+                solutions += [[i + 1, j + 1]]
+
+    return solutions
+
 # Main function
 def main():
-    A = [1,2,1,1,1]
-    k = 3
+    A = [ 'cat', 'dog', 'god', 'tca' ]
+    B = 0
 
     #prettyPrint(A)
     #ksmallest(A, k)
@@ -163,7 +236,10 @@ def main():
     #longestConsecutive(A)
     #reverseWords(A)
     #atoi(A)
-    maxLength(A, k)
+    #maxLength(A, k)
+    #twoSum(A, B)
+    #minWindow(A, B)
+    anagrams(A)
 
 if __name__ == '__main__':
     main()
