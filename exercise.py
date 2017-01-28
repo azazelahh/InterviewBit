@@ -1,6 +1,11 @@
 import sys
 import random
 
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
 
 def prettyPrint(A):
     len_x = 2 * A - 1
@@ -225,10 +230,62 @@ def anagrams(A):
 
     return solutions
 
+
+# @param A : head node of linked list
+# @param B : head node of linked list
+# @return the head node in the linked list
+def addTwoNumbers(self, A, B):
+    r = head = prev = None
+    a = A
+    b = B
+    carry = 0
+
+    while a or b:
+        val_a = 0
+        val_b = 0
+        if a:
+            val_a = a.val
+        if b:
+            val_b = b.val
+
+        sumab = val_a + val_b + carry
+        carry = 0
+        if sumab > 9:
+            sumab = sumab - 10
+            carry = 1
+        node = ListNode(sumab)
+        if r == None:
+            r = node
+            head = r
+        else:
+            prev = r
+            r.next = node
+            r = node
+        if sumab == 0 and (a == None or a.next == None) and (b == None or b.next == None):
+            if carry == 1:
+                node = ListNode(carry)
+                r.next = node
+            else:
+                prev.next = None
+            return head
+        if a:
+            a = a.next
+        if b:
+            b = b.next
+    return head
+
 # Main function
 def main():
-    A = [ 'cat', 'dog', 'god', 'tca' ]
-    B = 0
+    node0 = ListNode(9)
+    node1 = ListNode(9)
+    node2 = ListNode(1)
+    node3 = ListNode(1)
+    A = node0
+    node0.next = node1
+    node1.next = node2
+    B = node3
+    #A = [ 'cat', 'dog', 'god', 'tca' ]
+    #B = 0
 
     #prettyPrint(A)
     #ksmallest(A, k)
@@ -239,7 +296,8 @@ def main():
     #maxLength(A, k)
     #twoSum(A, B)
     #minWindow(A, B)
-    anagrams(A)
+    #anagrams(A)
+    addTwoNumbers(A, B)
 
 if __name__ == '__main__':
     main()
